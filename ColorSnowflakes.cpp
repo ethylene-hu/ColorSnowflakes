@@ -1,4 +1,9 @@
-﻿#include<gl/glut.h>
+﻿/*
+ * By Arect
+ * 2020/10/12
+ * OpenGL study
+ */
+#include<gl/glut.h>
 #include<Windows.h>
 #include<stdio.h>
 const GLfloat px = 0.01f;
