@@ -1,6 +1,6 @@
 ﻿/*
  * By Arect
- * 2020/10/12
+ * 2020/10/23
  * OpenGL study
  */
 #include<gl/glut.h>
