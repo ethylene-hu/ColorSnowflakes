@@ -6,11 +6,13 @@
 #include<gl/glut.h>
 #include<Windows.h>
 #include<stdio.h>
+#include<math.h>
+#define PI 3.1415926535
 const GLfloat px = 0.01f;
-const GLfloat py = 0.01f;
+static GLfloat distance_sight = 2;
 static GLfloat eyex = 0;
 static GLfloat eyey = 0;
-static GLfloat eyez = 1;
+static GLfloat eyez = distance_sight;
 static GLfloat centerx = 0;
 static GLfloat centery = 0;
 static GLfloat centerz = 0;
@@ -23,6 +25,7 @@ static GLfloat height = 400;
 static GLfloat ah = 0;
 static GLfloat dh = 0;
 static int counter = 0;
+static double fov_sight = 0;
 const unsigned char up_key = 'w';
 const unsigned char down_key = 's';
 const unsigned char left_key = 'a';
@@ -230,6 +233,11 @@ void see_rightly() {
 		upx, upy, upz
 	);
 }
+void rotating_observation(float direction) {
+	fov_sight += direction * 0.1 * PI;
+	eyex = distance_sight * sin(fov_sight);
+	eyez = distance_sight * cos(fov_sight);
+}
 void my_display() {
 	init_draw();
 	{
@@ -253,8 +261,18 @@ void my_display() {
 		draw_snow_by_quads(2, -0.3, *color_array[2]);
 		undo_sa();
 	}
+	{
+		see_rightly();
+		move_position(-0.5, 0.2);
+		glRotatef(60, 0, 1, 0);
+		spiral_ascension(1 * counter, -0.001 * counter);
+		draw_snow_by_quads(2, -0.3, *color_array[0]);
+		undo_sa();
+		glRotatef(-60, 0, 1, 0);
+	}
 	counter++;
 	Sleep(5);
+	rotating_observation(0.05);
 	glutPostRedisplay();
 	glutSwapBuffers();
 }
@@ -273,13 +291,15 @@ void my_keyboard_fun(unsigned char key, int x, int y) {
 		break;
 	}
 	case left_key: {
-		eyex += px;
-		centerx += px;
+		// eyex += px;
+		// centerx += px;
+		rotating_observation(-1);
 		break;
 	}
 	case right_key: {
-		eyex -= px;
-		centerx -= px;
+		// eyex -= px;
+		// centerx -= px;
+		rotating_observation(1);
 		break;
 	}
 	case closer_key: {
