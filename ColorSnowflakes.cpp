@@ -3,7 +3,7 @@
  * 2020/10/23
  * OpenGL study
  */
-#include<gl/glut.h>
+#include<glut.h>
 #include<Windows.h>
 #include<stdio.h>
 #include<math.h>
